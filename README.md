@@ -62,3 +62,33 @@ The **Urban Pollution Monitoring System** analyzes pollution data collected from
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/urban-pollution-monitoring.git
+   ```
+2. Run the program:
+   ```bash
+   python pollution_monitoring.py
+   ```
+
+---
+
+## 📝 Input File Format
+
+The input file should follow this structure:
+- **Header**: City name, date, and time (e.g., `Lisboa; 2024/08/23; 13:30`).
+- **Dimensions**: Rows and columns of the grid (e.g., `3 5` for 3 rows and 5 columns).
+- **Pollution Data Grid**: Each value represents pollution levels in µg/m³ (e.g., `25 12 65 -33 11`).
+
+---
+
+## 🎯 Use Cases
+
+This project is useful for:
+- **Environmental monitoring organizations**: Analyze urban air quality.
+- **Educational purposes**: Demonstrate the application of algorithms in solving real-world problems.
+
+---
+
+## 👥 Contributors
+
+Developed by **[Your Name/Team Name]** as part of the academic course **Algorithms and Programming 2024/25**.
+
+---
