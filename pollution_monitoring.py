@@ -83,6 +83,109 @@ def encontrar_aumento_severe(matriz):
     aumento = max(0, 40 - max_atual)
     print(f"Aumento necessário para todos atingirem 'Severe': {aumento} µg/m³")
 
+# Função 7: Efeito do Controle de Poluição
+def efeito_controle_poluicao(matriz, ajuste):
+    if not matriz:
+        print("Matriz não carregada.")
+        return None, 0
+
+    matriz_ajustada = ajustar_poluicao(matriz, ajuste)
+    pam_antigo = gerar_pam(matriz)
+    pam_novo = gerar_pam(matriz_ajustada)
+
+    alteracoes = sum(1 for i in range(len(pam_antigo)) for j in range(len(pam_antigo[0])) if pam_antigo[i][j] != pam_novo[i][j])
+    total_areas = len(pam_antigo) * len(pam_antigo[0])
+    percentagem = (alteracoes / total_areas) * 100
+
+    return matriz_ajustada, percentagem
+
+# Função 9: Identificar Local Ideal para Redução de Poluição
+def identificar_local_reducao(matriz):
+    if not matriz:
+        print("Matriz não carregada.")
+        return "Sem dados."
+
+    linhas, colunas = len(matriz), len(matriz[0])
+    max_poluição = 0
+    melhor_local = None
+
+    for i in range(linhas - 2):
+        for j in range(colunas - 2):
+            soma = sum(matriz[x][y] for x in range(i, i + 3) for y in range(j, j + 3))
+            if soma > max_poluição:
+                max_poluição = soma
+                melhor_local = (i, j)
+
+    return melhor_local if melhor_local else "Nenhuma área encontrada."
+
+# Função 10: Determinar Coluna Segura
+def determinar_coluna_segura(matriz):
+    if not matriz:
+        print("Matriz não carregada.")
+        return "Sem dados."
+
+    colunas = len(matriz[0])
+    for j in range(colunas - 1, -1, -1):
+        if all(linha[j] < 40 for linha in matriz):
+            return j
+
+    return "Nenhuma coluna segura encontrada."
+
+# Função 8: Simular Propagação de Poluição com Vento
+def simular_propagacao_vento(matriz):
+    if not matriz:
+        print("Matriz não carregada.")
+        return []
+
+    linhas = len(matriz)
+    colunas = len(matriz[0])
+    nova_matriz = [linha[:] for linha in matriz]
+
+    for i in range(1, linhas):
+        for j in range(colunas):
+            if matriz[i - 1][j] >= 40:
+                nova_matriz[i][j] = max(nova_matriz[i][j], 40)
+
+    return nova_matriz
+
+# Função Extra 12: Identificar Regiões Contíguas Acima de um Limite
+def identificar_regioes_contiguas(matriz, limite):
+    if not matriz:
+        print("Matriz não carregada.")
+        return []
+
+    linhas = len(matriz)
+    colunas = len(matriz[0])
+    visitado = [[False] * colunas for _ in range(linhas)]
+    regioes = []
+
+    def dfs(x, y, regiao):
+        if x < 0 or x >= linhas or y < 0 or y >= colunas or visitado[x][y] or matriz[x][y] <= limite:
+            return
+        visitado[x][y] = True
+        regiao.append((x, y))
+        dfs(x + 1, y, regiao)
+        dfs(x - 1, y, regiao)
+        dfs(x, y + 1, regiao)
+        dfs(x, y - 1, regiao)
+
+    for i in range(linhas):
+        for j in range(colunas):
+            if matriz[i][j] > limite and not visitado[i][j]:
+                regiao = []
+                dfs(i, j, regiao)
+                regioes.append(regiao)
+
+    return regioes
+
+# Função Extra 16: Previsão de Níveis de Poluição
+def prever_poluicao(matriz, taxa):
+    if not matriz:
+        print("Matriz não carregada.")
+        return []
+
+    return [[int(valor * (1 + taxa / 100)) for valor in linha] for linha in matriz]
+
 # Interface principal
 def interface():
     matriz = None
@@ -96,6 +199,12 @@ def interface():
         print("4. Ajustar níveis de poluição")
         print("5. Calcular percentagens de alertas")
         print("6. Encontrar aumento para 'Severe'")
+        print("7. Efeito do controle de poluição")
+        print("8. Simular propagação de poluição com vento")
+        print("9. Identificar local ideal para redução de poluição")
+        print("10. Determinar coluna segura")
+        print("11. Identificar regiões contíguas acima de um limite")
+        print("12. Previsão de níveis de poluição")
         print("0. Sair")
 
         escolha = input("Escolha uma opção: ")
@@ -119,6 +228,38 @@ def interface():
             calcular_percentagens(pam)
         elif escolha == "6":
             encontrar_aumento_severe(matriz)
+        elif escolha == "7":
+            try:
+                ajuste = int(input("Ajuste para simulação: "))
+                matriz, percentagem = efeito_controle_poluicao(matriz, ajuste)
+                print(f"Percentagem de áreas alteradas: {percentagem:.2f}%")
+            except ValueError:
+                print("Insira um número válido.")
+        elif escolha == "8":
+            matriz = simular_propagacao_vento(matriz)
+            print("Propagação simulada:")
+            mostrar_matriz(matriz)
+        elif escolha == "9":
+            local = identificar_local_reducao(matriz)
+            print(f"Local ideal para redução: {local}")
+        elif escolha == "10":
+            coluna = determinar_coluna_segura(matriz)
+            print(f"Coluna segura: {coluna}")
+        elif escolha == "11":
+            try:
+                limite = int(input("Limite para regiões contíguas: "))
+                regioes = identificar_regioes_contiguas(matriz, limite)
+                print(f"Regiões contíguas acima de {limite}: {regioes}")
+            except ValueError:
+                print("Insira um número válido.")
+        elif escolha == "12":
+            try:
+                taxa = float(input("Taxa de previsão (%): "))
+                matriz = prever_poluicao(matriz, taxa)
+                print("Previsão de poluição aplicada:")
+                mostrar_matriz(matriz)
+            except ValueError:
+                print("Insira um número válido.")
         elif escolha == "0":
             print("Saindo do programa.")
             break
