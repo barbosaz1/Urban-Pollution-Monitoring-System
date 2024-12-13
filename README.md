@@ -89,6 +89,6 @@ This project is useful for:
 
 ## 👥 Contributors
 
-Developed by **[Your Name/Team Name]** as part of the academic course **Algorithms and Programming 2024/25**.
+Developed by **Gonçalo Costa (51488) , Paulo Carvalho (51288) , Rodrigo Barbosa (51770) , Tomás Spratley (51959)** as part of the academic course **Algorithms and Programming 2024/25**.
 
 ---
