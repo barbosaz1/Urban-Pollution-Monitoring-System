@@ -135,19 +135,19 @@ def determinar_coluna_segura(matriz):
     return "Nenhuma coluna segura encontrada."
 
 # Função 8: Simular Propagação de Poluição com Vento
-def simular_propagacao_vento(matriz):
-    if not matriz:
-        print("Matriz não carregada.")
+def simular_propagacao_vento(matriz): #recebe a variável matriz
+    if not matriz: #verificação se a matriz está vazia
+        print("Matriz não carregada.") #caso a matriz esteja vazia
         return []
 
-    linhas = len(matriz)
-    colunas = len(matriz[0])
+    linhas = len(matriz) #numero de linhas da matriz 
+    colunas = len(matriz[0]) #número de colunas da matriz
     nova_matriz = [linha[:] for linha in matriz]
-
-    for i in range(1, linhas):
-        for j in range(colunas):
-            if matriz[i - 1][j] >= 40:
-                nova_matriz[i][j] = max(nova_matriz[i][j], 40)
+#cria uma cópia da matriz original. Isso é feito para que as mudanças que a função faz na matriz não afetem o processamento de outras funções, para a matriz original não ser alterada
+    for i in range(1, linhas): #percorre as linhas da matriz a começar na segunda linha (indice 1) até á ultima linha, começa em 1 porque a propagação da poluição depende da linha anterior
+        for j in range(colunas): #a cada iteração do loop externo (que percorre as linhas), o loop interno percorre as colunas dessa linha
+            if matriz[i - 1][j] >= 40:#verifica se o valor de poluição da célula na linha anterior (linha i - 1) na mesma coluna (j) é maior ou igual a 40
+                nova_matriz[i][j] = max(nova_matriz[i][j], 40) #verifica se a variavel atual (nova_matriz[i][j]) já tem um valor maior ou igual a 40. Caso contrário, ela ajusta o valor da variável para 40
 
     return nova_matriz
 
