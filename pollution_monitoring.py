@@ -254,20 +254,20 @@ def interface():
                 regioes = identificar_regioes_contiguas(matriz, limite)
                 print(f"Regiões contíguas acima de {limite}: {regioes}")
             except ValueError:
-                print("Insira um número válido.")
+                print("Insire um número válido.")
         elif escolha == "12":
             try:
                 taxa = float(input("Taxa de previsão (%): "))
                 matriz = prever_poluicao(matriz, taxa)
-                print("Previsão de poluição aplicada:")
+                print("Previsão da poluição aplicada:")
                 mostrar_matriz(matriz)
             except ValueError:
-                print("Insira um número válido.")
+                print("Insire um número válido.")
         elif escolha == "0":
-            print("Saindo do programa.")
+            print("A sair programa.")
             break
         else:
-            print("Opção inválida. Tente novamente.")
+            print("Opção inválida. Tenta novamente.")
 
 if __name__ == "__main__":
     interface()
