@@ -31,12 +31,7 @@ def mostrar_matriz(matriz):
         print(" ".join(f"{valor:>4}" for valor in linha))
 
 # Função 3: Gerar Mapa de Alertas de Poluição (PAM)
-def gerar_pam(matriz):
-    if not matriz:
-        print("Matriz não carregada.")
-        return []
-
-    def obter_alerta(valor):
+def obter_alerta(valor):
         if valor < 19:
             return 'M'
         elif valor < 30:
@@ -45,6 +40,11 @@ def gerar_pam(matriz):
             return 'E'
         else:
             return 'S'
+            
+def gerar_pam(matriz):
+    if not matriz:
+        print("Matriz não carregada.")
+        return []
 
     return [[obter_alerta(valor) for valor in linha] for linha in matriz]
 
