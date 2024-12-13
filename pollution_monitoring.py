@@ -49,12 +49,15 @@ def gerar_pam(matriz):
     return [[obter_alerta(valor) for valor in linha] for linha in matriz]
 
 # Função 4: Ajustar níveis de poluição
-def ajustar_poluicao(matriz, ajuste):
-    if not matriz:
-        print("Matriz não carregada.")
+def ajustar_poluicao(matriz, ajuste): #o ajuste é o valor que será somado a cada elemento da matriz
+    if not matriz: #verificação se a matriz está vazia
+        print("Matriz não carregada.") #caso a matriz esteja vazia
         return []
 
-    return [[valor + ajuste for valor in linha] for linha in matriz]
+    return [[valor + ajuste for valor in linha] for linha in matriz] #criação de uma nova matriz onde cada valor é ajustado pelo valor "ajuste"
+#for linha in matriz percorre cada linha na matriz 
+#for valor in linha percorre cada valor na dentro da linha
+#valor + ajuste a cada valor da linha, o valor de ajuste é somado
 
 # Função 5: Calcular percentagem de níveis de alerta
 def calcular_percentagens(pam):
